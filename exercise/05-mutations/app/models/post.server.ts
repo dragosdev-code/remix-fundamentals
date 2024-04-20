@@ -8,6 +8,14 @@ export async function getPost(slug: string) {
   return prisma.post.findUnique({ where: { slug } });
 }
 
+export async function createPost(
+  title: string,
+  slug: string,
+  markdown: string,
+) {
+  return prisma.post.create({ data: { title, slug, markdown } });
+}
+
 // 🐨 export a new function called createPost which accepts a title, slug, and markdown
 // and returns the newly created post.
 
