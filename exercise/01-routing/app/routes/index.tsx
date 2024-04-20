@@ -34,7 +34,7 @@ export default function Index() {
                       Hello {user.email} 👋
                     </p>
                     <Form action="/logout" method="post">
-                      <button className="w-full rounded bg-yellow-500  py-2 px-4 text-white hover:bg-yellow-600 focus:bg-yellow-400">
+                      <button className="w-full rounded bg-yellow-500 px-4 py-2 text-white hover:bg-yellow-600 focus:bg-yellow-400">
                         Logout
                       </button>
                     </Form>
@@ -42,7 +42,7 @@ export default function Index() {
                 ) : (
                   <Link
                     to="/login"
-                    className="flex items-center justify-center rounded-md bg-yellow-500 px-4 py-3 font-medium text-white hover:bg-yellow-600  "
+                    className="flex items-center justify-center rounded-md bg-yellow-500 px-4 py-3 font-medium text-white hover:bg-yellow-600"
                   >
                     Log In
                   </Link>
@@ -59,9 +59,13 @@ export default function Index() {
           </div>
         </div>
 
-        {/* 💿 Add a link to /posts here */}
+        <div className="mx-auto mt-16 max-w-7xl text-center">
+          <Link to="/posts" className="text-xl text-blue-600 underline">
+            Blog Posts
+          </Link>
+        </div>
 
-        <div className="mx-auto max-w-7xl py-2 px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-7xl px-4 py-2 sm:px-6 lg:px-8">
           <div className="mt-6 flex flex-wrap justify-center gap-8">
             {[
               {
