@@ -1,10 +1,10 @@
 import { Link, useLoaderData } from "@remix-run/react";
 import { type LoaderArgs } from "@remix-run/server-runtime";
 import { json } from "@remix-run/node";
-import { getPosts } from "~/models/post.server";
+import { getPostListItems } from "~/models/post.server";
 
 export const loader = async ({ request }: LoaderArgs) => {
-  const posts = await getPosts();
+  const posts = await getPostListItems();
 
   return json({ posts });
 };
