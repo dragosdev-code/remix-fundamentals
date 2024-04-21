@@ -3,6 +3,7 @@ import { json, redirect } from "@remix-run/node";
 import {
   Form,
   useActionData,
+  useCatch,
   useLoaderData,
   useTransition,
 } from "@remix-run/react";
@@ -22,7 +23,10 @@ export async function loader({ params }: LoaderArgs) {
   }
 
   const post = await getPost(params.slug);
-  invariant(post, `Post not found: ${params.slug}`);
+  if (!post) {
+    throw new Response("not found", { status: 404 });
+  }
+  // invariant(post, `Post not found: ${params.slug}`);
   return json({ post });
 }
 
@@ -131,7 +135,7 @@ export default function PostAdmin() {
             type="submit"
             name="intent"
             value="delete"
-            className="rounded bg-red-500 py-2 px-4 text-white hover:bg-red-600 focus:bg-red-400 disabled:bg-red-300"
+            className="rounded bg-red-500 px-4 py-2 text-white hover:bg-red-600 focus:bg-red-400 disabled:bg-red-300"
             disabled={isDeleting}
           >
             {isDeleting ? "Deleting..." : "Delete"}
@@ -141,7 +145,7 @@ export default function PostAdmin() {
           type="submit"
           name="intent"
           value={isNewPost ? "create" : "update"}
-          className="rounded bg-blue-500 py-2 px-4 text-white hover:bg-blue-600 focus:bg-blue-400 disabled:bg-blue-300"
+          className="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600 focus:bg-blue-400 disabled:bg-blue-300"
           disabled={isCreating || isUpdating}
         >
           {isNewPost ? (isCreating ? "Creating..." : "Create") : null}
@@ -154,3 +158,15 @@ export default function PostAdmin() {
 
 // 🐨 Add an ErrorBoundary component to this
 // 💰 You can use the ErrorFallback component from "~/components"
+export function ErrorBoundary({ error }: { error: Error }) {
+  console.error(error);
+  return <div>An unexpected error occured: {error.message}</div>;
+}
+
+export function CatchBoundary() {
+  const caught = useCatch();
+  if (caught.status === 404) {
+    return <div>Post was not found!</div>;
+  }
+  throw new Error(`Unexpected caught response with status: ${caught.status}`);
+}
